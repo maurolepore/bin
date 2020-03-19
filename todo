@@ -8,5 +8,4 @@ echo "- [ ] Check email and plan todo"
 echo "- [ ] Refine todo"
 echo "- [ ] If Fri (mon) draft (submit) week report"
 echo "- [ ] Clean up email"
-echo "- [ ] Overview next day"
-
+echo "- [ ] Check calendar for next day"
