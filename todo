@@ -1,0 +1,13 @@
+#! /bin/bash
+
+echo "# 2020-03-xx (06:30-)"
+echo ""
+echo "- [ ] Copy checklist"
+echo "- [ ] Check slack and palan todo"
+echo "- [ ] Check calendar and palan todo"
+echo "- [ ] Check email and plan todo"
+echo "- [ ] Refine todo"
+echo "- [ ] If Fri (mon) draft (submit) week report"
+echo "- [ ] Clean up email"
+echo "- [ ] Overview next day"
+
