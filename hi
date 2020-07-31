@@ -1,4 +1,5 @@
 #! /bin/bash
 
-echo "hello world"
-
+function hi {
+  echo hello ${1:-world}
+}

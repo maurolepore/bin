@@ -1,0 +1,4 @@
+#! /bin/bash
+
+echo "git@github.com:2degreesinvesting/$1.git"
+
