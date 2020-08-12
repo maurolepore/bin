@@ -1,6 +1,0 @@
-#! /bin/bash
-
-function gh_url {
-  echo https://github.com/cli/cli/releases/download/v${1:-FIXME}/gh_${1:-FIXME}_linux_amd64.deb
-}
-

@@ -1,7 +1,7 @@
 #! /bin/bash
 
 apt-get update &&
-apt-get install -y libcurl4-openssl-dev libssl-dev libssh2-1-dev libxml2-dev
+apt-get install -y libcurl4-openssl-dev libssl-dev libssh2-1-dev libxml2-dev pandoc
 
 echo 'options(repos = c(CRAN = "https://packagemanager.rstudio.com/all/__linux__/bionic/latest"))' > ~/.Rprofile
 

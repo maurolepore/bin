@@ -1,3 +1,0 @@
-#! /bin/bash
-
-sed $1 -n  ~/git/todo/todo.Rmd

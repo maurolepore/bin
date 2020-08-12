@@ -1,4 +1,0 @@
-#! /bin/bash
-
-echo "git@github.com:maurolepore/$1.git"
-
