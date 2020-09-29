@@ -1,0 +1,6 @@
+#! /bin/bash
+
+git pull origin mauro-wip
+git merge upstream/current_web_functionality
+git push
+

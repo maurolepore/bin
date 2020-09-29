@@ -1,0 +1,3 @@
+#! /bin/bash
+
+Rscript -e "usethis::pr_init('"$1"')"
