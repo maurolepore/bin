@@ -1,0 +1,11 @@
+#! /bin/bash
+
+pr_fetch () {
+    Rscript -e "usethis::pr_fetch(""$1"  ", owner = '""${2:-NULL}""' )"
+}
+#! /bin/bash
+
+pr_init () {
+    Rscript -e "usethis::pr_init('""$1""')"
+}
+
