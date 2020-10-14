@@ -1,7 +1,7 @@
 #! /bin/bash
 
 pr_fetch () {
-    Rscript -e "usethis::pr_fetch(""$1"  ", owner = '""${2:-NULL}""' )"
+    Rscript -e "usethis::pr_fetch(""$1"")"
 }
 #! /bin/bash
 
