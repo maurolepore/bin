@@ -1,0 +1,17 @@
+#! /bin/bash
+
+current_branch=$(git rev-parse --abbrev-ref HEAD)
+
+cd ../PACTA_analysis
+git rev-list master -1
+
+cd ../create_interactive_report
+git rev-list master -1
+
+cd ../pacta-data
+git rev-list master -1
+
+cd ../StressTestingModelDev
+git rev-list master -1
+
+git checkout "$current_branch"
