@@ -1,20 +1,24 @@
 #! /bin/bash
 
-current_branch=$(git rev-parse --abbrev-ref HEAD)
-git checkout master
-git pull origin master
+restore_directory=$(pwd)
+restore_branch=$(git rev-parse --abbrev-ref HEAD)
 
-cd ../pacta-data
-git checkout master
-git pull origin master
+function pull_origin_master {
+    cd ../"$1"
+    echo "$(basename $(pwd))"
 
-cd ../create_interactive_report
-git checkout master
-git pull origin master
+    git checkout master
+    git pull origin master
 
-cd ../StressTestingModelDev
-git checkout master
-git pull origin master
+    echo "."
+    echo "."
+}
 
-cd ../PACTA_analysis
-git checkout "$current_branch"
+pull_origin_master PACTA_analysis
+pull_origin_master pacta-data
+pull_origin_master create_interactive_report
+pull_origin_master StressTestingModelDev
+pull_origin_master user_results
+
+cd "$restore_directory"
+git checkout "$restore_branch"
