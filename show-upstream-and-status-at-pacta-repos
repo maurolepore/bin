@@ -1,9 +1,0 @@
-#! /bin/bash
-
-# $1: --fetch will fetch from GitHub; requires permisison to private repos
-
-for repos in $(pacta-repos)
-do
-    show-upstream-and-status-at ../"$repo" $1
-done
-
