@@ -6,19 +6,16 @@ restore_branch=$(git rev-parse --abbrev-ref HEAD)
 function pull_origin_master {
     cd ../"$1"
     echo "$(basename $(pwd))"
-
     git checkout master
     git pull origin master
-
     echo "."
     echo "."
 }
 
-pull_origin_master PACTA_analysis
-pull_origin_master pacta-data
-pull_origin_master create_interactive_report
-pull_origin_master StressTestingModelDev
-pull_origin_master user_results
+for repo in $(pacta-repos)
+do
+    pull_origin_master $repo
+done
 
 cd "$restore_directory"
 git checkout "$restore_branch"
