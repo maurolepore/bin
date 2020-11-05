@@ -7,28 +7,3 @@ do
     show-upstream-and-status-at ../"$repo" $1
 done
 
-
-./bin/show-upstream-and-status-at . $1
-echo "."
-echo "."
-echo "."
-
-./bin/show-upstream-and-status-at ../create_interactive_report $1
-echo "."
-echo "."
-echo "."
-
-./bin/show-upstream-and-status-at ../StressTestingModelDev $1
-echo "."
-echo "."
-echo "."
-
-./bin/show-upstream-and-status-at ../pacta-data $1
-echo "."
-echo "."
-echo "."
-
-./bin/show-upstream-and-status-at ../user_results $1
-echo "."
-echo "."
-echo "."
