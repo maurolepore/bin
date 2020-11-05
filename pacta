@@ -1,0 +1,48 @@
+#! /bin/bash
+
+repos="PACTA_analysis pacta-data create_interactive_report StressTestingModelDev user_results"
+
+repos_status() {
+    for repo in $1
+    do
+        cd $repo
+        git status
+        git log --oneline --decorate -n 1
+        git branch -vv
+    done
+}
+
+
+for arg in "$@"
+do
+    case $arg in
+        -r|--repos)
+        repos="$2"
+        shift
+        shift
+        ;;
+
+        status)
+        for repo in $repos
+        do
+            cd $repo
+            echo $repo
+            git fetch
+            git status
+            git log --oneline | head -n 1
+            cd ../
+            echo "."
+            echo "."
+        done
+        shift
+        ;;
+
+        *)
+        unknown+=("$1")
+        shift
+        ;;
+    esac
+done
+
+echo $repos
+echo "Unknown arguments: ${unknown[*]}"

@@ -2,4 +2,6 @@
 
 # $1: Tag, e.g. 0.0.1.
 # $2: Commit.
+# Examples:
+# pacta-tag 0.0.1 HEAD
 git tag -a $1 -m "Release pacta $1" "$2"
