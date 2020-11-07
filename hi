@@ -1,5 +1,0 @@
-#! /bin/bash
-
-function hi {
-  echo hello ${1:-world}
-}
