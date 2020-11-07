@@ -1,0 +1,4 @@
+#! /bin/bash
+
+locate --existing --basename .pacta \
+    | grep -v "Trash"
