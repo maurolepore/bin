@@ -10,6 +10,6 @@
 
 locate --existing --basename --regexp "^[.]pacta$" \
     | grep --invert-match --ignore-case "trash" \
-    | xargs dirname >&/dev/null
+    | xargs dirname
 
 exit 0

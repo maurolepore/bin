@@ -2,15 +2,13 @@
 
 # Apply commands to each directory detected by pacta-locate
 
-# $1 a command passed as a single string
-
 here=$(pwd)
 for repo in $(pacta-locate)
 do
     echo "$(basename ${repo}):"
     # Work here -------------------------------------------
     cd $repo
-    git fetch && git status && git log --oneline | head -1
+    # git status -s
     # -----------------------------------------------------
     echo --
     echo
