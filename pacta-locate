@@ -1,4 +1,15 @@
 #! /bin/bash
 
+# Absolute path to directories containing a file ".pacta".
+
+# Examples:
+# pacta-locate
+# sudo updatedb && pacta-locate
+# pacta-locate | grep -vi pacta_analysis
+
+
 locate --existing --basename --regexp "^[.]pacta$" \
-    | grep -v "Trash"
+    | grep --invert-match --ignore-case "trash" \
+    | xargs dirname
+
+exit 0
