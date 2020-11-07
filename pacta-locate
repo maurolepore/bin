@@ -1,4 +1,4 @@
 #! /bin/bash
 
-locate --existing --basename .pacta \
+locate --existing --basename --regexp "^[.]pacta$" \
     | grep -v "Trash"
