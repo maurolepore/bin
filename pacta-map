@@ -7,16 +7,12 @@
 # including each repo's pronoun $i -- e.g. 'eval echo $i'.
 
 # Examples:
-# From anywhere
-# pacta-eval-i 'eval echo $i' ~/git
-
-# From the parent of pacta-siblings
 # pacta-eval-i 'eval git -C $i status'
 # pacta-eval-i 'eval git -C $i log --oneline --decorate | head -1'
 
 here=$(pwd)
 
-for i in $(pacta-find ${2:-$here})
+for i in $(pacta-find)
 do
     echo "* $(basename $i):"
     $1
