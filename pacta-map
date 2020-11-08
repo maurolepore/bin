@@ -3,7 +3,7 @@
 # Apply commands in a sigle-quoted string over each pacta repo
 # by evaluating $i (each pacta repo).
 
-# $1: A single-quoted string starting with 'eval' and usually
+# $1: A single-quoted string starting usually
 # including each repo's pronoun $i -- e.g. 'eval echo $i'.
 
 # Examples:
@@ -12,10 +12,11 @@
 
 here=$(pwd)
 
+commands='eval '$1
 for i in $(pacta-find)
 do
     echo "* $(basename $i):"
-    $1
+    $commands
     echo
     echo
 done
