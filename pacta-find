@@ -2,11 +2,7 @@
 
 # Find subdirectories with an empty file named '.pacta' at their root.
 
-# $1 Path where to start the search, i.e. the parent of the sibling
-# subdirectories you want to find.
-
-at="${1:-$(pwd)}"
-out="$(find ${at} -maxdepth 2 -empty -type f -name '.pacta')"
+out="$(find $(pwd) -maxdepth 2 -empty -type f -name '.pacta')"
 
 if [ -z "$out" ]
 then
