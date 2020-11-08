@@ -2,11 +2,11 @@
 
 here=$(pwd)
 
-for i in $(pacta-find)
+for i in $(pacta-find ${2:-$(pwd)})
 do
     echo "* $(basename $i):"
     $1
-    echo "-"
+    echo
     echo
 done
 
