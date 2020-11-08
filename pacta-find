@@ -1,0 +1,8 @@
+#! /bin/bash
+
+# Find subdirectories with an empty file named '.pacta' at their root.
+
+# $1 Path where to start the search, i.e. the parent of the sibling
+# subdirectories you want to find.
+
+find . -maxdepth 2 -empty -type f -name '.pacta' | xargs dirname | sort
