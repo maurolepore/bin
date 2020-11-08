@@ -5,4 +5,7 @@
 # $1 Path where to start the search, i.e. the parent of the sibling
 # subdirectories you want to find.
 
-find . -maxdepth 2 -empty -type f -name '.pacta' | xargs dirname | sort
+at_or_here="${1:-$(pwd)}"
+find ${at_or_here} -maxdepth 2 -empty -type f -name '.pacta' | xargs dirname | sort
+
+exit 0
