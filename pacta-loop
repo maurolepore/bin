@@ -2,16 +2,21 @@
 
 # Apply commands to each directory detected by pacta-locate
 
+# $1: Path to the parent of pacta repos
+
 here=$(pwd)
-for repo in $(pacta-locate)
+pacta="$(pacta-find $1)"
+
+for repo in ${pacta}
 do
     echo "$(basename ${repo}):"
     # Work here -------------------------------------------
-    cd $repo
+    echo $repo
     # git status -s
     # -----------------------------------------------------
     echo --
     echo
 done
+
 cd $here
 exit 0
