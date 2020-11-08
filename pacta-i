@@ -1,0 +1,13 @@
+#! /bin/bash
+
+here=$(pwd)
+
+for i in $(pacta-find)
+do
+    echo "$(basename $i):"
+    $1
+    echo "--"
+    echo
+done
+
+cd $here
