@@ -1,5 +1,18 @@
 #! /bin/bash
 
+# Apply commands in a sigle-quoted string over each pacta repo
+# by evaluating $i (each pacta repo).
+
+# $1: A single-quoted string starting with 'eval', e.g. 'eval echo $i'.
+
+# Examples:
+# From anywhere
+# pacta-eval-i 'eval echo $i' ~/git
+
+# From the parent of pacta-siblings
+# pacta-eval-i 'eval git -C $i status'
+# pacta-eval-i 'eval git -C $i log --oneline --decorate | head -1'
+
 here=$(pwd)
 
 for i in $(pacta-find ${2:-$(pwd)})
