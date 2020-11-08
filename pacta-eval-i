@@ -3,7 +3,8 @@
 # Apply commands in a sigle-quoted string over each pacta repo
 # by evaluating $i (each pacta repo).
 
-# $1: A single-quoted string starting with 'eval', e.g. 'eval echo $i'.
+# $1: A single-quoted string starting with 'eval' and usually
+# including each repo's pronoun $i -- e.g. 'eval echo $i'.
 
 # Examples:
 # From anywhere
