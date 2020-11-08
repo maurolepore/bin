@@ -4,9 +4,9 @@ here=$(pwd)
 
 for i in $(pacta-find)
 do
-    echo "$(basename $i):"
+    echo "* $(basename $i):"
     $1
-    echo "--"
+    echo "-"
     echo
 done
 
