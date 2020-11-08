@@ -1,14 +1,13 @@
 #! /bin/bash
 
 # Find subdirectories with an empty file named '.pacta' at their root.
-
 out="$(find $(pwd) -maxdepth 2 -empty -type f -name '.pacta')"
 
 if [ -z "$out" ]
 then
     exit 0
 else
-    echo "$out" | sort | xargs dirname
+    echo "$out" | sort | xargs -L 1 dirname
 fi
 
 exit 0
