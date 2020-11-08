@@ -11,8 +11,8 @@ for repo in ${pacta}
 do
     echo "$(basename ${repo}):"
     # Work here -------------------------------------------
-    echo $repo
-    # git status -s
+    cd $repo
+    git log --oneline --decorate | head -1
     # -----------------------------------------------------
     echo --
     echo
