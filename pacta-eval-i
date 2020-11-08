@@ -16,7 +16,7 @@
 
 here=$(pwd)
 
-for i in $(pacta-find ${2:-$(pwd)})
+for i in $(pacta-find ${2:-$here})
 do
     echo "* $(basename $i):"
     $1
