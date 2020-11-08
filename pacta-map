@@ -11,8 +11,8 @@
 # pacta-eval-i 'eval git -C $i log --oneline --decorate | head -1'
 
 here=$(pwd)
-
 commands='eval '$1
+
 for i in $(pacta-find)
 do
     echo "* $(basename $i):"
