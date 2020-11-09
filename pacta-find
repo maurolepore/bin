@@ -6,6 +6,19 @@ find_at () {
     find "$1" -maxdepth 2 -mindepth 2 -empty -type f -name '.pacta'
 }
 
+# If the user provides a path to the parent of pacta siblings
+path="$1"
+if [ -n "$path" ]
+then
+    out="$(find_at $path)"
+fi
+
+if [ -n "$out" ]
+then
+    echo $out | xargs -L 1 dirname
+    exit 0
+fi
+
 # If working from the parent of pacta siblings
 wd="$(pwd)"
 out="$(find_at $wd)"
