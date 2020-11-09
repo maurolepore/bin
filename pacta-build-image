@@ -3,6 +3,7 @@
 # Examples:
 # From 2diidockerrunner/pacta
 # pacta-build-image --locally --parent ~/git --into ~/Downloads/tmp/pacta
+# pacta-build-image --parent ~/git --into ~/Downloads/tmp/pacta --tag 0.0.4.9009 --locally
 
 here="$(pwd)"
 
