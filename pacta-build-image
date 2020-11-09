@@ -1,15 +1,15 @@
 #! /bin/bash
 
+# FIXME: Does not tag -- leaves <none>
+# FIXME: Does not copy all siblings -- only bound
 # Examples:
 # From 2diidockerrunner/pacta
-# pacta-build-image --locally --parent ~/git --into ~/Downloads/tmp/pacta
-# pacta-build-image --parent ~/git --into ~/Downloads/tmp/pacta --tag 0.0.4.9009 --locally
-
-here="$(pwd)"
+# pacta-build-image --locally --parent ~/git
+# pacta-build-image --parent ~/git --tag 0.0.4.9009
 
 # Defaults:
-into="pacta"
-parent="$(pwd)"
+into="$(pwd)"
+parent="../.."
 locally=0
 url="git@github.com:2DegreesInvesting/"
 tag="latest"
@@ -19,11 +19,6 @@ do
     case $arg in
         --parent)
         parent="$2"
-        shift
-        shift
-        ;;
-        --into)
-        into="$2"
         shift
         shift
         ;;
@@ -83,7 +78,7 @@ done
 
 
 echo "* Build image"
-cd $here
+cd $into
 docker rmi --force $(docker images -q '2dii_pacta' | uniq) 2>/dev/null
 docker build --tag 2dii_pacta:"${tag}" --tag 2dii_pacta:latest .
 docker save 2dii_pacta | gzip > pacta_web/2dii_pacta.tar.gz
