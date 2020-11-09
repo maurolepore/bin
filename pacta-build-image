@@ -1,5 +1,8 @@
 #! /bin/bash
 
+# Examples:
+# From 2diidockerrunner/pacta
+# pacta-build-image --locally --parent ~/git --into ~/Downloads/tmp/pacta
 
 here="$(pwd)"
 
@@ -43,9 +46,10 @@ done
 cd $parent
 local_repos="$(pacta-find)"
 
-echo "Cloning siblings into: $into"
+
+
+echo "* Cloning siblings into $into"
 cd $into || exit 1
-echo
 
 if [  $locally == 1 ]
 then
@@ -63,41 +67,40 @@ else
     done
 fi
 
-# TODO:
+
+
+echo "* Log"
+for repo in $local_repos
+do
+    name="$(basename $repo)"
+    git -C "$name" tag -a "${tag}" -m "Release pacta ${tag}" HEAD
+    echo "$name"
+    echo "$(git -C $name log --pretty='%h %d <%an> (%cr)' | head -n 1)"
+    echo
+done
+
+
+
+echo "* Build image"
 cd $here
-exit 0
-
-for repo in ${clones}
-do
-    echo "${repo} HEAD sha:"
-    git -C "${repo}" rev-parse HEAD
-    echo "--"
-done
-
-for repo in ${clones}
-do
-    git -C "${repo}" tag -a "${tag}" -m "Release pacta ${tag}" HEAD
-    echo "${repo}"
-    echo "$(git -C ${repo} log --pretty='%h %d <%an> (%cr)' | head -n 1)"
-    echo "--"
-done
-
-docker rmi --force $(docker images -q '2dii_pacta' | uniq)
+docker rmi --force $(docker images -q '2dii_pacta' | uniq) 2>/dev/null
 docker build --tag 2dii_pacta:"${tag}" --tag 2dii_pacta:latest .
-
-for repo in ${clones}
-do
-    rm -rf "${repo}"
-done
+docker save 2dii_pacta | gzip > pacta_web/2dii_pacta.tar.gz
 
 unzip pacta_web_template.zip
 
-git clone -b master "${url}"user_results.git --depth 1
-echo "user_results HEAD sha:"
-git -C user_results rev-parse HEAD
+
+
+echo
+echo "* Cleanup"
+for repo in $local_repos
+do
+    name="$(basename $repo)"
+    rm -rf "$name"
+done
 
 needless_files=".git .gitignore .DS_Store README.md user_results.Rproj"
-for file in ${needless_files}
+for file in $needless_files
 do
   rm -rf user_results/"${file}"
 done
@@ -105,10 +108,9 @@ done
 cp -R user_results/ pacta_web/user_results/4/
 rm -rf user_results
 
-docker save 2dii_pacta | gzip > pacta_web/2dii_pacta.tar.gz
-
 zip -r pacta_web.zip pacta_web -x ".DS_Store" -x "__MACOSX"
 
 rm -rf pacta_web
 
+echo "Wohoo!"
 exit 0
