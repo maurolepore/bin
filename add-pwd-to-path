@@ -1,5 +1,5 @@
 #! /bin/bash
 
-echo 'export PATH='"$(pwd)"':${PATH}'
+echo 'export PATH='"$(pwd)"':${PATH}' >> ~/.profile
 
 exit 0
