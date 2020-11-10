@@ -15,7 +15,6 @@ commands='eval '$1
 
 for i in $(pacta-find)
 do
-    echo "* $(basename $i):"
     $commands
     echo
     echo
