@@ -1,6 +1,0 @@
-#! /bin/bash
-
-git remote rename origin my-fork
-git remote rename upstream origin
-git branch master -u origin/master
-git remote -vv
