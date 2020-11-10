@@ -6,8 +6,8 @@
 # pacta-sync
 # pacta-sync ~/git/pacta-data
 
-restore_directory=$(pwd)
-restore_branch="$(git rev-parse --abbrev-ref HEAD 2>/dev/null)"
+here=$(pwd)
+branch="$(git rev-parse --abbrev-ref HEAD 2>/dev/null)"
 
 path="${1:-$(pwd)}"
 repos="$(pacta-find $path)"
@@ -17,8 +17,9 @@ do
     echo "$(basename $repo)"
     git checkout master
     git pull origin master
+    git log --oneline --decorate | head -1
     echo
 done
 
-cd "$restore_directory"
-git checkout "$restore_branch" 2>/dev/null
+cd "$here"
+git checkout "$branch" 2>/dev/null
