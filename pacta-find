@@ -45,10 +45,8 @@ then
     echo $out | xargs -L 1 dirname
     cd "$here"
     exit 0
-
-# If working from elsewhere
-else
-    cd "$here"
-    exit 1
 fi
+
+cd "$here"
+exit 1
 
