@@ -13,11 +13,9 @@
 here=$(pwd)
 commands='eval '$1
 
-for i in $(pacta-find)
+for i in $(pacta-find ${2:-$(pwd)})
 do
     $commands
-    echo
-    echo
 done
 
 cd $here
