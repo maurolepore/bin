@@ -49,6 +49,6 @@ then
 # If working from elsewhere
 else
     cd "$here"
-    exit 0
+    exit 1
 fi
 
