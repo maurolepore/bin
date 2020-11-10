@@ -6,29 +6,19 @@
 # pacta-sync
 # pacta-sync ~/git/pacta-data
 
-for repo in $(pacta-find ${1:-$(pwd)})
-do
-    repos+="$(basename $repo)"
-done
-
-echo $repos
-exit 0
 restore_directory=$(pwd)
-restore_branch=$(git rev-parse --abbrev-ref HEAD)
+restore_branch="$(git rev-parse --abbrev-ref HEAD 2>/dev/null)"
 
-function pull_origin_master {
-    cd ../"$1"
-    echo "$(basename $(pwd))"
+path="${1:-$(pwd)}"
+repos="$(pacta-find $path)"
+for repo in $repos
+do
+    cd "$repo"
+    echo "$(basename $repo)"
     git checkout master
     git pull origin master
-    echo "."
-    echo "."
-}
-
-for repo in $(basename $(pacta-find))
-do
-    pull_origin_master $repo
+    echo
 done
 
 cd "$restore_directory"
-git checkout "$restore_branch"
+git checkout "$restore_branch" 2>/dev/null
