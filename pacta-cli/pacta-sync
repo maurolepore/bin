@@ -17,6 +17,7 @@ do
     echo "$(basename $repo)"
     git checkout master
     git pull origin master
+    echo
     git log --oneline --decorate | head -1
     echo
 done
