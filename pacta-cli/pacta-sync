@@ -18,8 +18,11 @@ do
     git checkout master
     git pull origin master
     echo
-    git log --pretty='%h %d <%an> (%cr)' | head -n 1
+    git log  --pretty='%h % %s (%cr) <%an>' | head -1
+
+    
     echo
+
 done
 
 cd "$here"
