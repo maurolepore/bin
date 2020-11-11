@@ -3,8 +3,8 @@
 # $1: Optional path to a pacta sibling or its parent.
 
 # Examples
-# pacta-sync
-# pacta-sync ~/git/pacta-data
+# pacta-pull-origin-master
+# pacta-pull-origin-master ~/git/pacta-data
 
 here=$(pwd)
 branch="$(git rev-parse --abbrev-ref HEAD 2>/dev/null)"
