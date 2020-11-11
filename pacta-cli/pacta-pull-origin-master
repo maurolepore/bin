@@ -6,6 +6,8 @@
 # pacta-pull-origin-master
 # pacta-pull-origin-master ~/git/pacta-data
 
+source pacta-utils
+
 here=$(pwd)
 branch="$(git rev-parse --abbrev-ref HEAD 2>/dev/null)"
 
@@ -14,7 +16,7 @@ repos="$(pacta-find $path)"
 for repo in $repos
 do
     cd "$repo"
-    echo "$(basename $repo)"
+    green "$(basename $repo)"
     git checkout master
     git pull origin master
     echo
