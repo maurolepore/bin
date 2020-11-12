@@ -1,0 +1,21 @@
+#! /bin/bash
+
+# List all managed-volumes or a specific managed-volume.
+
+# $1: Optional name of a specific volume
+
+# Examples:
+# docker volume crate --name shared-data
+# docker-volume-ls
+# docker-volume-ls shared-data
+# docker volume rm shared-data
+
+name="$1"
+if [ -n "$name" ]
+then
+    sudo ls "/var/lib/docker/volumes/$1/_data" && exit 0 || exit 1
+fi
+
+sudo ls "/var/lib/docker/volumes"
+
+exit 0
