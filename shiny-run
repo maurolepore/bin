@@ -1,0 +1,3 @@
+#! /bin/bash
+
+Rscript -e "options(shiny.autoreload = TRUE); shiny::runApp(\""$1"\")"

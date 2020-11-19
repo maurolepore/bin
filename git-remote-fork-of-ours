@@ -1,5 +1,7 @@
 #! /bin/bash
 
+set -euo pipefail
+
 git remote rename origin upstream
 git remote rename fork origin
 git branch master -u upstream/master
