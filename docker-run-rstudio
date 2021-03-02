@@ -1,4 +1,9 @@
 #! /bin/bash
 
-docker run -v "$(pwd)":"/home/rstudio" -p 8787:8787 -e PASSWORD=123 -it rocker/tidyverse
+docker run \
+    -d \
+    -v "$(pwd)":"/home/rstudio" \
+    -p 8787:8787 \
+    -e ROOT=TRUE -e DISSABLE_AUTH=true -e PASSWORD=123 \
+    rocker/verse
 
