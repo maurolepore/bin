@@ -3,6 +3,7 @@
 docker run --rm -ti \
     -v "$(pwd)":"/root/$(basename $(pwd))" \
     -v "$HOME/.ssh":"/root/.ssh" \
+    -v "$HOME/.profile":"/root/.profile" \
     -v "$HOME/.bashrc":"/root/.bashrc" \
     -v "$HOME/.Renviron":"/root/.Renviron" \
     -w "/root/$(basename $(pwd))/PACTA_analysis" \
