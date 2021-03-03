@@ -1,6 +1,5 @@
 #! /bin/bash
 
-
 docker run --rm -ti \
     -v "$(pwd)":"/root/$(basename $(pwd))" \
     -v "$HOME/.ssh":"/root/.ssh" \
@@ -9,4 +8,3 @@ docker run --rm -ti \
     -v "$HOME/.Renviron":"/root/.Renviron" \
     -w "/root/$(basename $(pwd))/PACTA_analysis" \
     2dii/r-packages
-
