@@ -1,4 +1,0 @@
-#! /bin/bash
-
-docker run --rm -ti -v$(pwd):/opt/$(basename $(pwd)) -w /opt/$(basename $(pwd)) $1 /bin/bash
-

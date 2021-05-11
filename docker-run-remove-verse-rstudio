@@ -1,0 +1,11 @@
+#! /bin/bash
+
+docker run --rm -d \
+    -v "$HOME:/home/rstudio" \
+    -v "rlib:/usr/local/lib/R/site-library" \
+    -e PASSWORD=abc \
+    -e ROOT=TRUE \
+    -e DISABLE_AUTH=true \
+    -e WORKING_DIR="/home/rstudio" \
+    -p 8787:8787 \
+    $1 

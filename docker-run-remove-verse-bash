@@ -1,0 +1,8 @@
+#! /bin/bash
+
+docker run --rm -ti \
+    -v "$HOME:/root" \
+    -v "rlib:/usr/local/lib/R/site-library" \
+     $1 \
+    /bin/bash
+
