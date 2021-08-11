@@ -1,3 +1,6 @@
 #!/usr/bin/env bash
+# Example:
+# # Run a service called "app" with entrypoint bash
+# docker-compose-run-mount app bash
 docker-compose run -v "$(pwd)":/"$(basename pwd)" $@
 
