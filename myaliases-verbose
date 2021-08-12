@@ -8,6 +8,5 @@
 #
 # Show matching "remote"
 # alias-release remote
-
-cat ~/git/dotfiles/aliases.zsh | head -53 | tail -9 | grep ${1:-""} | cut -d" " -f 2 | cut -d"=" -f 1
-
+MY_ALIASES="/home/mauro/git/dotfiles/aliases.zsh" 
+cat "$MY_ALIASES" | grep ${1:-""}
