@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+
+# Show aliases for CRAN release
+#
+# Examples
+# # Show all
+# alias-release
+#
+# Show matching "remote"
+# alias-release remote
+
+cat ~/git/dotfiles/aliases.zsh | head -53 | tail -9 | grep ${1:-""} | cut -d" " -f 2 | cut -d"=" -f 1
+
