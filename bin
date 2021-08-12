@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+# Examples
+# Show all
+# bin
+# Show matching "docker"
+# bin docker
+ls ~/git/bin | grep ${1:-""}
