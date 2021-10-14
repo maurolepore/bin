@@ -8,4 +8,4 @@
 #
 # Show matching "remote"
 # alias-release remote
-cat "$MAURO_ALIASES" | grep ${1:-""}
+cat "$MAURO_ALIASES" | grep -i ${1:-""}
