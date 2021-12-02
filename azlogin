@@ -1,3 +1,0 @@
-#!/usr/bin/env bash
-
-az login --allow-no-subscriptions
