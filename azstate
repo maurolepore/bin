@@ -1,0 +1,1 @@
+az boards work-item update --organization "https://dev.azure.com/2DegreesInvesting" --id $1 --state $2 > /dev/null
