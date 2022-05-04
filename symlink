@@ -1,0 +1,7 @@
+#! /usr/bin/env bash
+# Create symbolic links from all file in a directory to another directory
+# symlink /home/mauro/tmp/a /home/mauro
+for file in $(ls $1)
+do
+  ln -svf $1/$file $2/$file 
+done
