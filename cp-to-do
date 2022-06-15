@@ -1,0 +1,4 @@
+#! /usr/bin/env bash
+
+scp -r $1 root@164.92.94.39:$2
+
