@@ -1,0 +1,2 @@
+#! /usr/bin/env bash
+tar cvf $1 ~/.cache/ep ~/.cache/reuse
