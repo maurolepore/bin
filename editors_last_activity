@@ -13,5 +13,5 @@ do
   gh issue list --limit 1 -S "assignee:$i state:open state:closed sort:updated" \
     --repo ropensci/software-review \
     --json number,state,updatedAt,assignees --template \
-    '{{range .}}{{tablerow .state (pluck "login" .assignees | join ",") (printf "#%v" .number)  (timeago .updatedAt) }}{{end}}' | cat  
+    '{{range .}}{{tablerow .state .updatedAt (printf "#%v" .number) (pluck "login" .assignees | join ",") (timeago .updatedAt)}}{{end}}' | cat  
 done
