@@ -1,5 +1,13 @@
 #! /bin/bash
 
+# # Examples:
+#
+# editors_last_activity
+# 
+# # Pretty
+# tmp=tempfile
+# editors_last_activity >> $tmp
+# column -t $tmp | sort
 for i in $(cat editors)
 do
   gh issue list --limit 1 -S "assignee:$i state:open state:closed sort:updated" \
