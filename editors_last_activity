@@ -5,13 +5,11 @@
 # editors_last_activity
 # 
 # # Pretty
-# tmp=tempfile
-# editors_last_activity >> $tmp
-# column -t $tmp | sort
+# editors_last_activity >> tempfile | column -t | sort
 for i in $(cat editors)
 do
   gh issue list --limit 1 -S "assignee:$i state:open state:closed sort:updated" \
     --repo ropensci/software-review \
     --json number,state,updatedAt,assignees --template \
-    '{{range .}}{{tablerow .state .updatedAt (printf "#%v" .number) (pluck "login" .assignees | join ",") (timeago .updatedAt)}}{{end}}' | cat  
+    '{{range .}}{{tablerow .updatedAt (printf "#%v" .number) .state  (pluck "login" .assignees | join ",") (timeago .updatedAt)}}{{end}}' | cat  
 done
