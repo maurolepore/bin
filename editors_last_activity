@@ -1,0 +1,8 @@
+#! /bin/bash
+
+for i in $(cat editors)
+do
+  echo $i
+  gh issue list -S "assignee:$i state:open state:closed sort:updated" --repo ropensci/software-review | head -1 | cut -f 1,2,5 
+done
+
