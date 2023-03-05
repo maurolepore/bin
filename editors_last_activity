@@ -3,6 +3,6 @@
 for i in $(cat editors)
 do
   echo $i
-  gh issue list -S "assignee:$i state:open state:closed sort:updated" --repo ropensci/software-review | head -1 | cut -f 1,2,5 
+  gh issue list --limit 1 -S "assignee:$i state:open state:closed sort:updated" --repo ropensci/software-review | cut -f 1,2,5 
 done
 
