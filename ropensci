@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+# Examples
+# eic open
+gh issue list --limit ${2:-30} --search "state:${1:-open} sort:updated -no:assignees" --repo ropensci/software-review \
+  --json number,state,updatedAt,assignees --template \
+  '{{tablerow "ASSIGNEE" "STATE" "UPDATED" "NUMBER"}}{{range .}}{{tablerow (pluck "login" .assignees | join ",") .state (timeago .updatedAt) (printf "#%v" .number | autocolor "green")}}{{end}}'
