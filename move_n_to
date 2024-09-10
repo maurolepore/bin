@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+# 1: number of files
+# 2: directory
+# example:
+# move_n_to 2 one
+find . -maxdepth 1 -type f | head -n $1 | xargs mv -t $2

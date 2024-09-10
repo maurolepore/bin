@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+# Examples
+# timetracker 
+# timetracker -3 
+WD="${pwd}"
+cd "${HOME}""/git/timetracker"
+Rscript -e 'knitr::knit('\''README.Rmd'\'')'
+less README.md 
+cd "${WD}"
+
