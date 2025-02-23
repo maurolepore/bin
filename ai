@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+
+model='gpt-4o-mini'
+
+args="$@"
+sys_prompt='You are a friendly but terse assistant. Do not expect the conversation to continue.'
+expression="ellmer::chat_openai('"$sys_prompt"', model = '"$model"')\$chat('"$args"')"
+
+Rscript -e "$expression"
+

@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+args="$@"
+expression="ellmer::chat_openai('You are a friendly but terse assistant. Do not expect the conversation to continue', model = 'gpt-4o-mini')\$chat('"$args"')"
+
+Rscript -e "$expression"
+
