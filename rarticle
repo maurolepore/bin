@@ -1,0 +1,4 @@
+#! /usr/bin/env bash
+
+quarto render vignettes/articles/$1 --to gfm
+
