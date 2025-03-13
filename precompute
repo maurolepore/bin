@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+Rscript -e "knitr::knit('$1.orig', output = '$1')"
+

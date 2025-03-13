@@ -1,2 +1,2 @@
 #! /bin/bash
-docker run -d --rm -v /mnt:/mnt  -p 8788:8787 -e PASSWORD=123 -e ROOT=true rocker/verse
+docker run -d --name verse -v /mnt:/mnt  -p 8788:8787 -e PASSWORD=123 -e ROOT=true rocker/verse
