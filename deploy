@@ -1,18 +1,19 @@
 #! /usr/bin/env bash
 
+env="${1:- banana}"
 pr="$(git branch --show-current)"
-git branch banana --force
-git checkout banana
+
+git branch "${env}" --force
+git checkout "${env}"
 
 git rev-parse HEAD >> sha && echo sha >> .Rbuildignore
 git add .Rbuildignore sha
 git commit -m "Tag with sha"
 
-git push origin banana --force
+git push origin "${env}" --force
 gh workflow run deploy_to_dev.yaml \
-    --field environment=development-banana \
-    --ref="banana"
+    --field environment=development-"${env}" \
+    --ref="${env}"
 
 git checkout $pr
 
-k9s
