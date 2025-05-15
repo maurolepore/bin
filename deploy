@@ -1,7 +1,7 @@
 #! /usr/bin/env bash
 
 pr="$(git branch --show-current)"
-git branch banana --force
+git checkout -b banana --force
 
 git rev-parse HEAD >> sha && echo sha >> .Rbuildignore
 git add .Rbuildignore sha
