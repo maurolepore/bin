@@ -1,6 +1,6 @@
 #! /usr/bin/env bash
 
-env="${1:- banana}"
+env="${1:-banana}"
 pr="$(git branch --show-current)"
 
 git branch "${env}" --force
