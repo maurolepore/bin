@@ -1,5 +1,0 @@
-#! /usr/bin/env bash
-
-# example
-# banana
-gh workflow run deploy_to_dev.yaml --field environment=development-banana --ref=$(git branch --show-current)
