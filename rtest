@@ -1,0 +1,17 @@
+#! /usr/bin/env bash
+
+# Examples
+# rtest
+
+Rscript -e '{
+  slow <- c("mod_analyze_data", "mod_power_analysis")
+  
+  exclude_files <- function(x) {
+    out <- sprintf("(?!%s$)", x)
+    out <- paste(out, collapse = "")
+    out <- sprintf("^%s.+", out)
+    out
+  }
+  
+  devtools::test(filter = exclude_files(slow), perl = TRUE)
+}'
