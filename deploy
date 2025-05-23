@@ -1,5 +1,8 @@
 #! /usr/bin/env bash
 
+# Examples
+# deploy banana
+
 env="${1:-banana}"
 pr="$(git branch --show-current)"
 
