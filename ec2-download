@@ -1,0 +1,3 @@
+#! /usr/bin/env bash
+
+scp recast@ec2:/home/recast/Downloads/$1 ~/Downloads/$1
