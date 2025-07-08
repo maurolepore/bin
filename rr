@@ -5,11 +5,12 @@ VERSIONS=$(rig ls | sed 's/*//' | sed 's/^ *//' | cut -d' ' -f1)
 if [[ -z "$1" ]]; then
     echo "$VERSIONS"
 else
-    MATCH=$(echo "$VERSIONS" | grep "$1")
+    MATCH=$(echo "$VERSIONS" | grep -F "$1" | head -n1)
     if [[ -n "$MATCH" ]]; then
+        echo "[INFO] Setting default to $MATCH"
         rig default "$MATCH"
     else
-        echo "No matching version found for pattern: $1" >&2
+        echo "[ERROR] No matching R version found for: $1" >&2
         exit 1
     fi
 fi
