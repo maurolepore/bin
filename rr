@@ -3,7 +3,7 @@
 VERSIONS=$(rig ls | sed 's/*//' | sed 's/^ *//' | cut -d' ' -f1)
 
 if [[ -z "$1" ]]; then
-    echo "$VERSIONS"
+   rig ls 
 else
     MATCH=$(echo "$VERSIONS" | grep -F "$1" | head -n1)
     if [[ -n "$MATCH" ]]; then
