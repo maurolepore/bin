@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+
+VERSIONS=$(rig ls | sed 's/*//' | sed 's/^ *//' | cut -d' ' -f1)
+
+if [[ -z "$1" ]]; then
+    echo "$VERSIONS"
+else
+    MATCH=$(echo "$VERSIONS" | grep "$1")
+    if [[ -n "$MATCH" ]]; then
+        rig default "$MATCH"
+    else
+        echo "No matching version found for pattern: $1" >&2
+        exit 1
+    fi
+fi
+
