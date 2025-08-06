@@ -1,0 +1,5 @@
+#!/bin/bash
+
+function_name="$1"
+
+R --quiet --vanilla -e "devtools::load_all(); testthat::test_file('tests/testthat/test-${function_name}.R')"
