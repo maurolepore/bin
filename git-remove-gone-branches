@@ -1,2 +1,0 @@
-#!/usr/bin/env bash
-gbv | grep gone | cut -d' ' -f3
