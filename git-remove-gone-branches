@@ -1,2 +1,2 @@
 #!/usr/bin/env bash
-gbv | grep gone | cut -d  -f3
+gbv | grep gone | cut -d' ' -f3
