@@ -1,0 +1,34 @@
+#!/bin/bash
+set -euo pipefail
+
+# Mark as read:
+# - Any notification that is NOT an open Issue or open PullRequest
+# - This includes: ci_activity, releases, commits, closed issues, closed PRs, etc.
+
+echo "Fetching notifications..."
+
+count=0
+gh api notifications | jq -r '.[] | "\(.id) \(.subject.url // "null") \(.subject.type)"' | while read -r thread_id subject_url type; do
+  should_mark_read=false
+
+  # If it's not an Issue or PullRequest, mark as read
+  if [ "$type" != "Issue" ] && [ "$type" != "PullRequest" ]; then
+    should_mark_read=true
+    reason="non-issue/PR: $type"
+  # If it's an Issue or PullRequest, check if it's closed
+  elif [ "$subject_url" != "null" ]; then
+    state=$(gh api "$subject_url" 2>/dev/null | jq -r '.state')
+    if [ "$state" != "open" ]; then
+      should_mark_read=true
+      reason="closed $type"
+    fi
+  fi
+
+  if [ "$should_mark_read" = true ]; then
+    gh api --method PATCH "/notifications/threads/$thread_id" > /dev/null 2>&1
+    echo "✓ Marked $thread_id as read ($reason)"
+    ((count++))
+  fi
+done
+
+echo "Done! Marked $count notifications as read."

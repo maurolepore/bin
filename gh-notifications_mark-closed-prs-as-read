@@ -1,0 +1,18 @@
+#!/bin/bash
+set -euo pipefail
+
+# Mark all GitHub notifications for closed PRs as read
+
+echo "Fetching PR notifications..."
+
+count=0
+gh api notifications | jq -r '.[] | select(.subject.type == "PullRequest") | "\(.id) \(.subject.url)"' | while read -r thread_id pr_url; do
+  state=$(gh api "$pr_url" 2>/dev/null | jq -r '.state')
+  if [ "$state" = "closed" ]; then
+    gh api --method PATCH "/notifications/threads/$thread_id" > /dev/null 2>&1
+    echo "✓ Marked $thread_id as read (closed PR)"
+    ((count++))
+  fi
+done
+
+echo "Done! Marked $count notifications as read."
