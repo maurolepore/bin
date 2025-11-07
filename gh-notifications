@@ -6,6 +6,9 @@ Usage: gh-notifications [FLAGS]
 
 Show GitHub notifications, optionally filtered by reason.
 
+DEPENDENCIES:
+  Requires: gh (GitHub CLI), jq, column
+
 FLAGS:
   (no flags)  Show all notifications
   -m          Filter by mentions
