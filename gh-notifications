@@ -1,0 +1,68 @@
+#!/bin/bash
+
+show_help() {
+  cat <<EOF
+Usage: gh-notifications [FLAGS]
+
+Show GitHub notifications, optionally filtered by reason.
+
+FLAGS:
+  (no flags)  Show all notifications
+  -m          Filter by mentions
+  -i          Filter by notifications you authored
+  -a          Filter by assignments
+  -t          Filter by team mentions
+  -r          Filter by review requests
+  -h, --help  Show this help message
+
+FLAGS can be combined (e.g., -ma for mentions and assignments)
+
+EXAMPLES:
+  gh-notifications       # Show all notifications
+  gh-notifications -m    # Show only mentions
+  gh-notifications -ma   # Show mentions and assignments
+  gh-notifications -mtr  # Show mentions, team mentions, and review requests
+EOF
+  exit 0
+}
+
+# Check for help flag
+if [[ "$1" == "-h" || "$1" == "--help" ]]; then
+  show_help
+fi
+
+# Parse flags to build filter reasons
+reasons=()
+
+while getopts "miatr" opt; do
+  case $opt in
+    m) reasons+=("mention") ;;
+    i) reasons+=("author") ;;
+    a) reasons+=("assign") ;;
+    t) reasons+=("team_mention") ;;
+    r) reasons+=("review_requested") ;;
+    *) echo "Usage: gh-notifications [-m] [-i] [-a] [-t] [-r] [-h|--help]"; exit 1 ;;
+  esac
+done
+
+# Build jq filter based on whether flags were provided
+if [ ${#reasons[@]} -eq 0 ]; then
+  # No flags: show all notifications
+  filter='.'
+else
+  # Flags provided: filter by reasons
+  filter='select('
+  first=true
+  for reason in "${reasons[@]}"; do
+    if [ "$first" = true ]; then
+      filter+=" .reason == \"$reason\""
+      first=false
+    else
+      filter+=" or .reason == \"$reason\""
+    fi
+  done
+  filter+=')'
+fi
+
+# Run query
+gh api notifications | jq -r ".[] | $filter | \"\(.repository.full_name)\t\(.subject.type)\t\(.subject.title)\"" | column -t -s "$(printf '\t')"
