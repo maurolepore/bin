@@ -68,4 +68,4 @@ else
 fi
 
 # Run query
-gh api notifications | jq -r ".[] | $filter | \"\(.repository.full_name)\t\(.subject.type)\t\(.subject.title)\"" | column -t -s "$(printf '\t')"
+gh api notifications | jq -r ".[] | $filter | \"\(.repository.full_name)\t#\(.subject.url | split(\"/\") | .[-1])\t\(.subject.type)\t\(.subject.title)\"" | column -t -s "$(printf '\t')"
