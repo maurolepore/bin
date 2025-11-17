@@ -1,0 +1,11 @@
+#!/bin/bash
+
+cat <<'EOF'
+1. Is it a bug? Yes/No
+2. If yes, what is the urgency:
+  a. All hands on deck (incident)
+  b. Urgent deadline of _________
+  c. Bug takes priority over ongoing non-bug work
+  d. Low priority bug (backlog)
+3. The person primarily responsible for solving this issue is ________
+EOF
