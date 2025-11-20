@@ -1,0 +1,28 @@
+#!/bin/bash
+# gw - git switch to branch matching pattern
+
+if [ -z "$1" ]; then
+    echo "Usage: gw <pattern>"
+    exit 1
+fi
+
+pattern="$1"
+
+# Find branches matching the pattern (case-insensitive)
+matches=$(git branch | sed 's/^[* ] //' | grep -i "$pattern")
+
+if [ -z "$matches" ]; then
+    echo "No branches match '$pattern'"
+    exit 1
+fi
+
+# Count matches
+match_count=$(echo "$matches" | wc -l | tr -d ' ')
+
+if [ "$match_count" -eq 1 ]; then
+    git checkout "$matches"
+else
+    echo "Multiple branches match '$pattern':"
+    echo "$matches"
+    exit 1
+fi
