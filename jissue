@@ -1,0 +1,6 @@
+#!/bin/bash
+if [[ -z "$1" ]]; then
+  jira sprint list --state open
+else
+  jira issue list -q "sprint in ('$1') AND assignee = currentUser()"
+fi

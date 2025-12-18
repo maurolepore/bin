@@ -1,0 +1,41 @@
+#!/bin/bash
+
+# Re-run failed GitHub Actions workflows for a PR
+# Usage: gh-rerun-failed-workflows [PR_NUMBER]
+# If no PR number is provided, uses the current branch's PR
+
+set -e
+
+PR_NUMBER="$1"
+
+# If no PR number provided, get it from current branch
+if [ -z "$PR_NUMBER" ]; then
+  echo "No PR number provided, checking current branch..."
+  PR_NUMBER=$(gh pr view --json number --jq '.number' 2>/dev/null || true)
+
+  if [ -z "$PR_NUMBER" ]; then
+    echo "Error: No PR found for current branch and no PR number provided"
+    echo "Usage: gh-rerun-failed-workflows [PR_NUMBER]"
+    exit 1
+  fi
+
+  echo "Found PR #$PR_NUMBER for current branch"
+fi
+
+# Get failed workflow run IDs
+echo "Checking for failed workflows in PR #$PR_NUMBER..."
+FAILED_RUNS=$(gh pr checks "$PR_NUMBER" --json status,workflowRunId,name --jq '.[] | select(.status == "fail") | .workflowRunId' | sort -u)
+
+if [ -z "$FAILED_RUNS" ]; then
+  echo "No failed workflows found for PR #$PR_NUMBER"
+  exit 0
+fi
+
+# Re-run each failed workflow
+echo "Found failed workflows. Re-running..."
+for RUN_ID in $FAILED_RUNS; do
+  echo "Re-running workflow $RUN_ID..."
+  gh run rerun "$RUN_ID" --failed
+done
+
+echo "Done! Re-ran $(echo "$FAILED_RUNS" | wc -l | xargs) workflow(s)"

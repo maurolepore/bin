@@ -1,0 +1,24 @@
+#!/bin/bash
+# List time logged for Jira tickets assigned to current user
+#
+# Usage:
+#   jira_time_logged              # All statuses
+#   jira_time_logged Done         # Only Done tickets
+#   jira_time_logged "In Progress" # Only In Progress tickets
+
+status_filter=""
+if [ -n "$1" ]; then
+  status_filter="--status \"$1\""
+fi
+
+eval "jira issue list --assignee \"\$(jira me)\" $status_filter --plain --no-headers" | awk '{print $2}' | while read key; do
+  ts=$(jira issue view "$key" --raw 2>/dev/null | jq -r '.fields.timespent // 0')
+  summary=$(jira issue view "$key" --raw 2>/dev/null | jq -r '.fields.summary')
+  if [ "$ts" != "null" ] && [ "$ts" != "0" ]; then
+    hours=$((ts / 3600))
+    mins=$(((ts % 3600) / 60))
+    printf "%-10s %3dh %2dm  %s\n" "$key" "$hours" "$mins" "$summary"
+  else
+    printf "%-10s %3s %3s  %s\n" "$key" "-" "-" "$summary"
+  fi
+done
