@@ -1,0 +1,13 @@
+#!/bin/bash
+# Set the RAPI_IMAGE_TAG on Heroku
+# Usage: heroku_set_tag <new-tag> [app-name]
+# Defaults to recast-app-production
+
+if [ -z "$1" ]; then
+  echo "Usage: heroku_set_tag <new-tag> [app-name]"
+  exit 1
+fi
+
+TAG="$1"
+APP="${2:-recast-app-production}"
+heroku config:set RAPI_IMAGE_TAG="$TAG" -a "$APP"

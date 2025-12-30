@@ -1,0 +1,7 @@
+#!/bin/bash
+# Get the current RAPI_IMAGE_TAG from Heroku
+# Usage: heroku_get_tag [app-name]
+# Defaults to recast-app-production
+
+APP="${1:-recast-app-production}"
+heroku config:get RAPI_IMAGE_TAG -a "$APP"
