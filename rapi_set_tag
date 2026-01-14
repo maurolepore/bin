@@ -1,13 +1,61 @@
 #!/bin/bash
 # Set the RAPI_IMAGE_TAG on Heroku
-# Usage: heroku_set_tag <new-tag> [app-name]
+# Usage: rapi_set_tag <new-tag> [app-name] [--force]
 # Defaults to recast-app-production
 
-if [ -z "$1" ]; then
-  echo "Usage: heroku_set_tag <new-tag> [app-name]"
+set -e
+
+FORCE=false
+ARGS=()
+
+# Parse arguments
+for arg in "$@"; do
+  if [ "$arg" = "--force" ] || [ "$arg" = "-f" ]; then
+    FORCE=true
+  else
+    ARGS+=("$arg")
+  fi
+done
+
+TAG="${ARGS[0]}"
+APP="${ARGS[1]:-recast-app-production}"
+
+if [ -z "$TAG" ]; then
+  echo "Usage: rapi_set_tag <new-tag> [app-name] [--force]"
+  echo "  --force, -f  Allow downgrade to older version"
   exit 1
 fi
 
-TAG="$1"
-APP="${2:-recast-app-production}"
-heroku config:set RAPI_IMAGE_TAG="$TAG" -a "$APP"
+# Get current tag
+CURRENT=$(heroku config:get RAPI_IMAGE_TAG -a "$APP" 2>/dev/null || echo "")
+
+if [ -z "$CURRENT" ]; then
+  echo "No current RAPI_IMAGE_TAG set. Setting to: $TAG"
+  heroku config:set RAPI_IMAGE_TAG="$TAG" -a "$APP"
+  exit 0
+fi
+
+if [ "$TAG" = "$CURRENT" ]; then
+  echo "Tag is already set to: $TAG"
+  exit 0
+fi
+
+# Compare versions (strip 'v' prefix if present, compare with sort -V)
+compare_versions() {
+  local v1="${1#v}"
+  local v2="${2#v}"
+  # Returns 0 if v1 > v2, 1 otherwise
+  [ "$(printf '%s\n%s' "$v1" "$v2" | sort -V | tail -n1)" = "$v1" ] && [ "$v1" != "$v2" ]
+}
+
+if compare_versions "$TAG" "$CURRENT"; then
+  echo "Upgrading: $CURRENT -> $TAG"
+  heroku config:set RAPI_IMAGE_TAG="$TAG" -a "$APP"
+elif [ "$FORCE" = true ]; then
+  echo "Downgrading (forced): $CURRENT -> $TAG"
+  heroku config:set RAPI_IMAGE_TAG="$TAG" -a "$APP"
+else
+  echo "Error: Refusing to downgrade from $CURRENT to $TAG"
+  echo "Use --force to override"
+  exit 1
+fi
