@@ -1,0 +1,71 @@
+#!/bin/bash
+# Copy RAPI_IMAGE_TAG from one Heroku app to another
+
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+source "$SCRIPT_DIR/_rapi_resolve_app"
+
+show_help() {
+  cat << 'EOF'
+Usage: rapi_update_tag <target> [source] [--force]
+
+Copy the RAPI_IMAGE_TAG from source app (default: production) to target app.
+Target cannot be production.
+
+Arguments:
+  target    Dev/staging app to update (e.g., banana, staging)
+  source    App to read the tag from (default: production)
+
+Options:
+  -f, --force   Allow downgrade to older version
+  -h, --help    Show this help message
+
+Shortcuts:
+  production, staging, apple, andrew, banana, cherry,
+  drew, durian, egg, fortaleza, guava, jeff, vlad
+
+Examples:
+  rapi_update_tag banana                  # From production
+  rapi_update_tag banana staging          # From staging
+  rapi_update_tag apple staging --force   # Force downgrade
+EOF
+}
+
+FORCE=""
+ARGS=()
+
+for arg in "$@"; do
+  if [ "$arg" = "--force" ] || [ "$arg" = "-f" ]; then
+    FORCE="--force"
+  elif [ "$arg" = "--help" ] || [ "$arg" = "-h" ]; then
+    show_help
+    exit 0
+  else
+    ARGS+=("$arg")
+  fi
+done
+
+TARGET_INPUT="${ARGS[0]}"
+SOURCE_INPUT="${ARGS[1]:-production}"
+
+if [ -z "$TARGET_INPUT" ]; then
+  show_help
+  exit 1
+fi
+
+TARGET=$(resolve_app "$TARGET_INPUT") || exit 1
+SOURCE=$(resolve_app "$SOURCE_INPUT") || exit 1
+
+if [ "$TARGET" = "recast-app-production" ]; then
+  echo "Error: Cannot target production with rapi_update_tag"
+  echo "Use rapi_set_tag directly (with explicit confirmation) for production changes."
+  exit 1
+fi
+
+TAG=$(rapi_get_tag "$SOURCE")
+if [ -z "$TAG" ]; then
+  echo "Error: No RAPI_IMAGE_TAG found on $SOURCE"
+  exit 1
+fi
+
+echo "Copying $TAG from $SOURCE to $TARGET"
+rapi_set_tag "$TAG" "$TARGET_INPUT" $FORCE

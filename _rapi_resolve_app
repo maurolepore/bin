@@ -1,0 +1,19 @@
+#!/bin/bash
+# Resolve app name shortcuts to full Heroku app names.
+# Sourced by rapi_get_tag, rapi_set_tag, rapi_update_tag.
+
+resolve_app() {
+  local name="$1"
+  case "$name" in
+    production) echo "recast-app-production" ;;
+    staging)    echo "recast-app-staging" ;;
+    apple|andrew|banana|cherry|drew|durian|egg|fortaleza|guava|jeff|vlad)
+      echo "recast-app-dev-$name" ;;
+    recast-app-*) echo "$name" ;;
+    *)
+      echo "Error: Unknown app '$name'" >&2
+      echo "Valid shortcuts: production, staging, apple, andrew, banana, cherry, drew, durian, egg, fortaleza, guava, jeff, vlad" >&2
+      return 1
+      ;;
+  esac
+}

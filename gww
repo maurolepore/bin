@@ -1,0 +1,10 @@
+#!/bin/bash
+# gww - like gw but when multiple matches, checkout the last one
+
+if [ -z "$1" ]; then
+    echo "Usage: gww <pattern>"
+    exit 1
+fi
+
+branch=$(gw "$1" 2>&1 | tail -1)
+git checkout "$branch"

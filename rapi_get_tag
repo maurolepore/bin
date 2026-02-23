@@ -1,7 +1,31 @@
 #!/bin/bash
 # Get the current RAPI_IMAGE_TAG from Heroku
-# Usage: heroku_get_tag [app-name]
-# Defaults to recast-app-production
 
-APP="${1:-recast-app-production}"
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+source "$SCRIPT_DIR/_rapi_resolve_app"
+
+show_help() {
+  cat << 'EOF'
+Usage: rapi_get_tag [app-name]
+
+Get the current RAPI_IMAGE_TAG for a Heroku app.
+Defaults to recast-app-production.
+
+Shortcuts:
+  production, staging, apple, andrew, banana, cherry,
+  drew, durian, egg, fortaleza, guava, jeff, vlad
+
+Examples:
+  rapi_get_tag                # Get production tag
+  rapi_get_tag banana         # Get Banana dev tag
+  rapi_get_tag staging        # Get staging tag
+EOF
+}
+
+if [ "$1" = "-h" ] || [ "$1" = "--help" ]; then
+  show_help
+  exit 0
+fi
+
+APP=$(resolve_app "${1:-production}") || exit 1
 heroku config:get RAPI_IMAGE_TAG -a "$APP"
