@@ -1,0 +1,69 @@
+#!/usr/bin/env bash
+# Purge GitHub Actions caches for one or more PRs in a repo.
+#
+# Only touches caches scoped to refs/pull/<PR>/merge for each PR listed.
+# Never touches refs/heads/main or any other ref.
+#
+# Merged PRs: safe to purge (zero cost — the branch is dead, no future
+# builds read from those caches).
+# Open PRs: incurs slower CI on the next push. Typically 2-5 min if the
+# PR does not touch Dockerfile/renv.lock (falls back to base + main
+# caches), up to 20-40 min if the renv layer has to rebuild.
+#
+# Requires the gh CLI (>= 2.40) authenticated with the `repo` scope.
+
+set -euo pipefail
+
+usage() {
+  cat <<EOF
+Usage: $(basename "$0") REPO PR_NUMBER [PR_NUMBER ...]
+
+Examples:
+  $(basename "$0") getrecast/recast-api 1394 1395 1396
+  $(basename "$0") getrecast/recast-api 1222
+
+Preview before purging:
+  gh cache list --repo REPO --ref refs/pull/PR/merge --limit 1000 \\
+    --json id,key,sizeInBytes,lastAccessedAt
+EOF
+}
+
+if [[ $# -eq 0 ]]; then
+  usage
+  exit 0
+fi
+
+if [[ $# -lt 2 ]]; then
+  usage >&2
+  exit 1
+fi
+
+REPO="$1"
+shift
+
+for pr in "$@"; do
+  if ! [[ "$pr" =~ ^[0-9]+$ ]]; then
+    echo "Error: PR number must be numeric, got '$pr'" >&2
+    exit 1
+  fi
+done
+
+failures=0
+for pr in "$@"; do
+  echo "Purging caches for PR #${pr} on ${REPO}..."
+  if ! gh cache delete --all --ref "refs/pull/${pr}/merge" \
+    --repo "$REPO" --succeed-on-no-caches; then
+    echo "  ERROR: cache delete failed for PR #${pr}" >&2
+    failures=$((failures + 1))
+  fi
+done
+
+if [[ $failures -gt 0 ]]; then
+  echo ""
+  echo "Purge completed with ${failures} error(s)." >&2
+fi
+
+echo ""
+echo "Cache usage after purge:"
+gh api "repos/${REPO}/actions/cache/usage" \
+  --jq '{active_caches_size_gb: (.active_caches_size_in_bytes / 1024 / 1024 / 1024 * 100 | floor / 100), active_caches_count}'

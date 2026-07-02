@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+# Pull the default branch (main or master) for all git repos in this directory.
+
+set -euo pipefail
+
+dir="$(cd "$(dirname "$0")" && pwd)"
+
+for repo in "$dir"/*/; do
+  [ -d "$repo/.git" ] || continue
+  name="$(basename "$repo")"
+  default_branch="$(git -C "$repo" symbolic-ref refs/remotes/origin/HEAD 2>/dev/null | sed 's|refs/remotes/origin/||')"
+  if [ -z "$default_branch" ]; then
+    echo "SKIP $name (no default branch detected)"
+    continue
+  fi
+  echo "---- $name ($default_branch) ----"
+  git -C "$repo" checkout "$default_branch" && git -C "$repo" pull || echo "FAIL $name"
+done

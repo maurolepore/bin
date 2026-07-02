@@ -1,0 +1,3 @@
+# Source this: . cd_stack <pattern>
+# e.g. . cd_stack wa373
+cd "$(fd "$1" ~/git/stack)"

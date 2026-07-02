@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+# Show GitHub Actions cache usage for a repo (default: getrecast/recast-api).
+#
+# Requires the gh CLI authenticated with the `repo` scope.
+#
+# Note: the cache/usage endpoint is eventually consistent — may lag
+# ~30-60 sec after a purge before it reflects the new numbers.
+
+set -euo pipefail
+
+REPO="${1:-getrecast/recast-api}"
+
+gh api "repos/${REPO}/actions/cache/usage" \
+  --jq '{used_gb: (.active_caches_size_in_bytes / 1024 / 1024 / 1024 * 100 | floor / 100), free_gb: ((10 * 1024 * 1024 * 1024 - .active_caches_size_in_bytes) / 1024 / 1024 / 1024 * 100 | floor / 100), count: .active_caches_count}'
